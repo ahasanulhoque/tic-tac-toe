@@ -43,12 +43,15 @@ const Gameplay = (() => {
     let player1 = Player('Bob', 'x');
     let player2 = Player('Chris', 'o');
 
+    //let winCon1 = (Gameboard.board[0] == Gameboard.board[1]) && (Gameboard.board[1] = Gameboard.board[2]);
+
     let i=0;
     function playGame() {
         //playerTurn is used to determine whose turn it is.
         //True: player1
         //False: player2
         let playerTurn = true;
+
 
         //Listen for clicks on board
         do{
@@ -66,8 +69,7 @@ const Gameplay = (() => {
                     player2.selectSquare(square.id.charAt(square.id.length-1));
                     playerTurn = !playerTurn;
                 }
-                DisplayController.renderBoard();
-                
+                DisplayController.renderBoard();   
             }
             i++;
         }while(i<9) //Placeholder condition for while loop, will need to
@@ -75,4 +77,8 @@ const Gameplay = (() => {
     }
     
     playGame();
+
+    return {
+        playerTurn
+    }
 })();
