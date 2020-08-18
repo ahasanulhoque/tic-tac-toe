@@ -12,15 +12,15 @@ const Gameboard = (() => {
 
 const DisplayController = (() => {
     //Function to render array onto page
-    function updateBoard() {
+    function renderBoard() {
         for(i=0;i<9;i++){
             board.querySelector(`#square-${i}`).textContent = Gameboard.board[i];
         }
     }
-    updateBoard();
+    renderBoard();
 
     return {
-        updateBoard
+        renderBoard
     }
 })();
 
@@ -66,7 +66,7 @@ const Gameplay = (() => {
                     player2.selectSquare(square.id.charAt(square.id.length-1));
                     playerTurn = !playerTurn;
                 }
-                DisplayController.updateBoard();
+                DisplayController.renderBoard();
                 
             }
             i++;
