@@ -43,8 +43,6 @@ const Gameplay = (() => {
     let player1 = Player('Bob', 'x');
     let player2 = Player('Chris', 'o');
 
-    //let winCon1 = (Gameboard.board[0] == Gameboard.board[1]) && (Gameboard.board[1] = Gameboard.board[2]);
-
     let i=0;
     function playGame() {
         //playerTurn is used to determine whose turn it is.
@@ -76,6 +74,16 @@ const Gameplay = (() => {
                     //change it to game's victory conditions
     }
     
+    function testWin() {
+        //Funciton to test win conditions
+        //Test for array elements to be equal to each other AND not equal to space
+        //Return boolean to be used in playGame() function
+
+        //Top row tests
+        //(Gameboard.board[i] == Gameboard.board[j]) && (Gameboard.board[i] == Gameboard.[k]);
+        //return true;
+    }
+
     playGame();
 
     return {
