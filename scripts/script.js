@@ -57,20 +57,20 @@ const Gameplay = (() => {
         board.onclick = function(e) {
             //Get the square number from last character of target's ID
             //Update array at square number with player's letter
-            //Update the board
             //Change the turn
             let square = e.target;
             if(playerTurn && square.textContent == "\u00A0"){
                 player1.selectSquare(square.id.charAt(square.id.length-1));
+                playerTurn = !playerTurn;
             }
             else if(!playerTurn && square.textContent == "\u00A0") {
                 player2.selectSquare(square.id.charAt(square.id.length-1));
+                playerTurn = !playerTurn;
             }
             //Update the board
             DisplayController.renderBoard();
-            //Test if game should end, otherwise continue
+            //Test if game should end
             if(_testWin() || Gameboard.board.indexOf("\u00A0") == -1) _endGame(); //Placeholder for ending game
-            else playerTurn = !playerTurn;
         }
     }
     
@@ -95,7 +95,7 @@ const Gameplay = (() => {
         board.onclick = null;
 
         //Test for winner and show winner name on page
-        if(playerTurn) winner.textContent = `${player1.name} wins!`;
+        if(!playerTurn) winner.textContent = `${player1.name} wins!`;
         else winner.textContent = `${player2.name} wins!`;
         board.appendChild(winner);
 
@@ -115,7 +115,7 @@ const Gameplay = (() => {
         Gameboard.board = ["\u00A0", "\u00A0", "\u00A0",
                             "\u00A0", "\u00A0", "\u00A0",
                             "\u00A0",  "\u00A0", "\u00A0"];
-        playerTurn = false;
+        playerTurn = true;
         _playGame();
     }
 
