@@ -1,4 +1,4 @@
-const board = document.querySelector('#tic-tac-toe-board');
+const pageBoard = document.querySelector('#tic-tac-toe-board');
 
 const Gameboard = (() => {
     let board = ["\u00A0", "\u00A0", "\u00A0",
@@ -14,7 +14,7 @@ const DisplayController = (() => {
     //Function to render array onto page
     function renderBoard() {
         for(i=0;i<9;i++){
-            board.querySelector(`#square-${i}`).textContent = Gameboard.board[i];
+            pageBoard.querySelector(`#square-${i}`).textContent = Gameboard.board[i];
         }
     }
     renderBoard();
@@ -54,7 +54,7 @@ const Gameplay = (() => {
 
     const _playGame = () => {
         //Listen for clicks on board   
-        board.onclick = function(e) {
+        pageBoard.onclick = function(e) {
             //Get the square number from last character of target's ID
             //Update array at square number with player's letter
             //Change the turn
@@ -82,25 +82,47 @@ const Gameplay = (() => {
         //Tests invoving top left square
         if(Gameboard.board[0] != "\u00A0"){
             if((Gameboard.board[0] == Gameboard.board[1]) && 
-                (Gameboard.board[1] == Gameboard.board[2])) return true;
+                    (Gameboard.board[1] == Gameboard.board[2])) return true;
             else if((Gameboard.board[0] == Gameboard.board[3]) &&
-                    (Gameboard.board[3] == Gameboard.board[6])) return true;
+                        (Gameboard.board[3] == Gameboard.board[6])) return true;
             else if((Gameboard.board[0] == Gameboard.board[4]) &&
-                    (Gameboard.board[4] == Gameboard.board[8])) return true;
+                        (Gameboard.board[4] == Gameboard.board[8])) return true;
+        } //Middle column
+        if(Gameboard.board[1] != "\u00A0"){
+            if((Gameboard.board[1] == Gameboard.board[4]) &&
+                    (Gameboard.board[4] == Gameboard.board[7])) return true;
+        } //Top right square tests
+        if(Gameboard.board[2] != "\u00A0"){
+            if((Gameboard.board[2] == Gameboard.board[4]) && 
+                    (Gameboard.board[4] == Gameboard.board[6])) return true;
+            else if((Gameboard.board[2] == Gameboard.board[5]) &&
+                        (Gameboard.board[5] == Gameboard.board[8])) return true;
+        } //Middle row
+        if(Gameboard.board[3] != "\u00A0"){
+            if((Gameboard.board[3] == Gameboard.board[4]) &&
+                    (Gameboard.board[4] == Gameboard.board[5])) return true;
+        } //Bottom row
+        if(Gameboard.board[6] != "\u00A0"){
+            if((Gameboard.board[6] == Gameboard.board[7]) &&
+                    (Gameboard.board[7] == Gameboard.board[8])) return true;
         }
     }
 
     const _endGame = () => {
         //Stop allowing clicks on the board
-        board.onclick = null;
+        pageBoard.onclick = null;
 
         //Test for winner and show winner name on page
-        if(!playerTurn) winner.textContent = `${player1.name} wins!`;
-        else winner.textContent = `${player2.name} wins!`;
-        board.appendChild(winner);
+        if(_testWin()){
+            if(!playerTurn) winner.textContent = `${player1.name} wins!`;
+            else winner.textContent = `${player2.name} wins!`;
+            
+        } else winner.textContent = 'Draw!';
+
+        pageBoard.appendChild(winner);
 
         //Place the replay button on the page, run _playAgain() if it is clicked
-        board.appendChild(replay);
+        pageBoard.appendChild(replay);
         replay.onclick = () => {
             _playAgain();
         }
@@ -110,8 +132,8 @@ const Gameplay = (() => {
         //Remove the play again button, set the tic-tac-toe board bac to
         //non-breaking spaces, and run the _playGame() function again to
         //play again
-        board.removeChild(winner);
-        board.removeChild(replay);
+        pageBoard.removeChild(winner);
+        pageBoard.removeChild(replay);
         Gameboard.board = ["\u00A0", "\u00A0", "\u00A0",
                             "\u00A0", "\u00A0", "\u00A0",
                             "\u00A0",  "\u00A0", "\u00A0"];
