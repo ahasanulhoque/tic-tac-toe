@@ -6,21 +6,34 @@
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-    <div id="tic-tac-toe-board">
-        <div id="row-1">
-            <div id="square-0"></div>
-            <div id="square-1"></div>
-            <div id="square-2"></div>
+    <div id="game">
+        <div id="player-1" class="player">
+            <h2>X's: </h2>
+            <label for="player-1-name">Enter your name</label>
+            <input name="player-1-name">
         </div>
-        <div id="row-2">
-            <div id="square-3"></div>
-            <div id="square-4"></div>
-            <div id="square-5"></div>
+        <div id="tic-tac-toe-board">
+            <div id="row-1">
+                <div id="square-0"></div>
+                <div id="square-1"></div>
+                <div id="square-2"></div>
+            </div>
+            <div id="row-2">
+                <div id="square-3"></div>
+                <div id="square-4"></div>
+                <div id="square-5"></div>
+            </div>
+            <div id="row-3">
+                <div id="square-6"></div>
+                <div id="square-7"></div>
+                <div id="square-8"></div>
+            </div>
+            <button id="start-game">Start game</button>
         </div>
-        <div id="row-3">
-            <div id="square-6"></div>
-            <div id="square-7"></div>
-            <div id="square-8"></div>
+        <div id="player-2" class="player">
+            <h2>O's: </h2>
+            <label for="player-2-name">Enter your name</label>
+            <input name="player-2-name">
         </div>
     </div>
     <script src="scripts/script.js"></script>

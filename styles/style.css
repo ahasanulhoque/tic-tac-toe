@@ -1,3 +1,12 @@
+#game {
+    display: flex;
+}
+
+#tic-tac-toe-board {
+
+}
+
+
 #row-1, #row-2 {
     border-bottom: solid;
 }
@@ -19,4 +28,13 @@
 #square-3, #square-4,
 #square-6, #square-7 {
     border-right: solid;
+}
+
+.player {
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    text-align: center;
 }
