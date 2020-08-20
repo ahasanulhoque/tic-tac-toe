@@ -1,6 +1,7 @@
 const pageBoard = document.querySelector('#tic-tac-toe-board');
 
 const Gameboard = (() => {
+    //Initialize array with non-breaking spaces to render blank board
     let board = ["\u00A0", "\u00A0", "\u00A0",
                  "\u00A0", "\u00A0", "\u00A0",
                  "\u00A0",  "\u00A0", "\u00A0"];
@@ -11,15 +12,56 @@ const Gameboard = (() => {
 })();
 
 const DisplayController = (() => {
+    const startButton = document.querySelector("#start-game");
+    const _player1Input = document.querySelector("#player-1-input");
+    const _player2Input = document.querySelector("#player-2-input");
+    const _player1Name = document.querySelector("#player-1-name");
+    const _player2Name = document.querySelector("#player-2-name");
+
     //Function to render array onto page
-    function renderBoard() {
+    const renderBoard = () => {
         for(i=0;i<9;i++){
             pageBoard.querySelector(`#square-${i}`).textContent = Gameboard.board[i];
         }
     }
+    //Run renderBoard once to put initial array (non-breaking spaces) on page
     renderBoard();
 
+    //Allow users to enter name on page for X
+    _player1Input.addEventListener("keyup", (e) => {
+        if(e.keyCode === 13 && _player1Input.value != ""){
+            Gameplay.player1.name = _player1Input.value;
+            _player1Name.textContent = "X's: " + Gameplay.player1.name;
+            _player1Input.value = '';
+        }
+    });
+
+    //Allow users to enter name on page for O
+    _player2Input.addEventListener("keydown", (e) => {
+        if(e.keyCode === 13 && _player2Input.value != ""){
+            Gameplay.player2.name = _player2Input.value;
+            _player2Name.textContent = "O's: " + Gameplay.player2.name;
+            _player2Input.value = '';
+        }
+    });
+
+    //One button will control the flow of the game
+    startButton.onclick = () => {
+        //The board is intially unclickable. Clicking the start button allows the
+        //game to start and changes the button text to 'Start over?'
+        if (startButton.textContent == 'Start game'){
+            Gameplay.playGame();    
+            startButton.textContent = 'Start over?' 
+        } else {
+            //If start button says 'Start over?' or 'Play again?' restart the game
+            //The textContent line is needed in case button says 'Play again?'
+            Gameplay.playAgain();
+            startButton.textContent = 'Start over?'
+        }
+    }
+
     return {
+        startButton,
         renderBoard
     }
 })();
@@ -28,7 +70,7 @@ const DisplayController = (() => {
 const Player = (name, letter) => {
     //Function to select a square. It will use the selected square's ID
     //as the index for the board array, and change it to the player's letter
-    function selectSquare(i){
+    const selectSquare = (i) => {
         Gameboard.board[i] = letter;
     }
 
@@ -40,44 +82,45 @@ const Player = (name, letter) => {
 }
 
 const Gameplay = (() => {
+    //Initialize players with X and O as names in case names are not entered
     let player1 = Player('X', 'x');
     let player2 = Player('O', 'o');
     
-    const winner = document.createElement('div');
-    const replay = document.createElement('button');
-    replay.textContent = 'Play again?';
+    const _winner = document.createElement('div');
+    const _buttonWrapper = document.querySelector('#button-wrapper');
 
     //playerTurn is used to determine whose turn it is.
     //True: player1
     //False: player2
-    let playerTurn = true;
+    let _playerTurn = true;
 
-    const _playGame = () => {
+    const playGame = () => {
         //Listen for clicks on board   
         pageBoard.onclick = function(e) {
             //Get the square number from last character of target's ID
             //Update array at square number with player's letter
             //Change the turn
             let square = e.target;
-            if(playerTurn && square.textContent == "\u00A0"){
+            if(_playerTurn && square.textContent == "\u00A0"){
                 player1.selectSquare(square.id.charAt(square.id.length-1));
-                playerTurn = !playerTurn;
+                _playerTurn = !_playerTurn;
             }
-            else if(!playerTurn && square.textContent == "\u00A0") {
+            else if(!_playerTurn && square.textContent == "\u00A0") {
                 player2.selectSquare(square.id.charAt(square.id.length-1));
-                playerTurn = !playerTurn;
+                _playerTurn = !_playerTurn;
             }
             //Update the board
             DisplayController.renderBoard();
             //Test if game should end
-            if(_testWin() || Gameboard.board.indexOf("\u00A0") == -1) _endGame(); //Placeholder for ending game
+            //_testWin() looks for victory conditions. Second test checks for 
+            //non-breaking spaces on board and returns true if there are none
+            if(_testWin() || Gameboard.board.indexOf("\u00A0") == -1) _endGame();
         }
     }
     
     const _testWin = () => {
         //Funciton to test win conditions
         //Test for array elements to be equal to each other AND not equal to space
-        //Return letter name to determine winner in playGame() function
 
         //Tests invoving top left square
         if(Gameboard.board[0] != "\u00A0"){
@@ -112,35 +155,36 @@ const Gameplay = (() => {
         //Stop allowing clicks on the board
         pageBoard.onclick = null;
 
-        //Test for winner and show winner name on page
+        //Test for winner
         if(_testWin()){
-            if(!playerTurn) winner.textContent = `${player1.name} wins!`;
-            else winner.textContent = `${player2.name} wins!`;
+            if(!_playerTurn) _winner.textContent = `${player1.name} wins!`;
+            else _winner.textContent = `${player2.name} wins!`;
             
-        } else winner.textContent = 'Draw!';
+        } else _winner.textContent = 'Draw!';
 
-        pageBoard.appendChild(winner);
-
-        //Place the replay button on the page, run _playAgain() if it is clicked
-        pageBoard.appendChild(replay);
-        replay.onclick = () => {
-            _playAgain();
-        }
+        //Show winner name on page and change button text
+        _buttonWrapper.appendChild(_winner);
+        DisplayController.startButton.textContent = 'Play again?'
     }
 
-    const _playAgain = () => {
-        //Remove the play again button, set the tic-tac-toe board bac to
-        //non-breaking spaces, and run the _playGame() function again to
-        //play again
-        pageBoard.removeChild(winner);
-        pageBoard.removeChild(replay);
+    const playAgain = () => {
+        //If the winner/result is on the page, remove it
+        if(_buttonWrapper.contains(_winner)) _buttonWrapper.removeChild(_winner);
+
+        //Set the tic-tac-toe board bac to non-breaking spaces, and run the 
+        //playGame() function again to play again
         Gameboard.board = ["\u00A0", "\u00A0", "\u00A0",
                             "\u00A0", "\u00A0", "\u00A0",
                             "\u00A0",  "\u00A0", "\u00A0"];
-        playerTurn = true;
-        _playGame();
+
+        _playerTurn = true;
+        playGame();
     }
 
-    //Run playGame() on page load
-    _playGame();
+    return {
+        player1,
+        player2,
+        playGame,
+        playAgain
+    }
 })();

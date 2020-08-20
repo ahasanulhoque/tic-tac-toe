@@ -55,6 +55,6 @@ html {
 }
 
 /*Classes toggled through js*/
-.player-hidden {
+.input-hidden {
     display: none;
 }
