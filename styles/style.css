@@ -1,11 +1,16 @@
+html {
+    font-size: 25px;
+    height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 #game {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    margin-top: 1rem;;
 }
-
-#tic-tac-toe-board {
-
-}
-
 
 #row-1, #row-2 {
     border-bottom: solid;
@@ -33,8 +38,23 @@
 .player {
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
 }
 
-h2 {
+
+
+#button-wrapper {
     text-align: center;
+    margin-top: 2rem;
+}
+
+#start-game {
+    width: 10rem;
+    height: 4rem;
+    font-size: 1.5rem;
+}
+
+/*Classes toggled through js*/
+.player-hidden {
+    display: none;
 }
