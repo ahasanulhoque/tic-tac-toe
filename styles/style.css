@@ -2,14 +2,23 @@ html {
     font-size: 25px;
     height: 100vh;
     font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(45deg,  #cceeff,  #00aaff);
 }
 
 #game {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw;
-    margin-top: 1rem;;
+    margin-top: 1em;;
+}
+
+h1 {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1rem;
 }
 
 #row-1, #row-2 {
@@ -39,9 +48,9 @@ html {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
+    position: relative;
+    bottom: 3rem;
 }
-
-
 
 #button-wrapper {
     text-align: center;
@@ -52,9 +61,12 @@ html {
     width: 10rem;
     height: 4rem;
     font-size: 1.5rem;
+    background: hsla(24, 100%, 70%, 100%);
+    border: 2px solid black;
+    border-radius: 5%;
 }
 
-/*Classes toggled through js*/
-.input-hidden {
-    display: none;
+#start-game:hover {
+    cursor: pointer;
+    background: hsla(24, 100%, 70%, 75%);
 }
